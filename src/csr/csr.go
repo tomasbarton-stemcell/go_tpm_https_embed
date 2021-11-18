@@ -56,7 +56,7 @@ var (
 		AuthPolicy: []byte{},
 		RSAParameters: &tpm2.RSAParams{
 			Sign: &tpm2.SigScheme{
-				Alg:  tpm2.AlgRSAPSS,
+				Alg:  tpm2.AlgRSASSA,
 				Hash: tpm2.AlgSHA256,
 			},
 			KeyBits: 2048,
@@ -140,7 +140,7 @@ func main() {
 			CommonName:         *san,
 		},
 		DNSNames:           []string{*san},
-		SignatureAlgorithm: x509.SHA256WithRSAPSS,
+		SignatureAlgorithm: x509.SHA256WithRSA,
 	}
 
 	csrBytes, err := x509.CreateCertificateRequest(rand.Reader, &csrtemplate, s)

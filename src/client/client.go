@@ -47,11 +47,11 @@ func main() {
 		TpmDevice:          *tpmPath,
 		TpmHandleFile:      *keyFile,
 		PublicCertFile:     *pubCert,
-		SignatureAlgorithm: x509.SHA256WithRSAPSS, // required for go 1.15+ TLS
+		SignatureAlgorithm: x509.SHA256WithRSA, // required for go 1.15+ TLS
 		ExtTLSConfig: &tls.Config{
-			ServerName: "server.domain.com",
+// 			ServerName: "",
 			RootCAs:    caCertPool,
-			ClientCAs:  caCertPool,
+// 			ClientCAs:  caCertPool,
 		},
 	})
 
@@ -70,7 +70,7 @@ func main() {
 
 	client := &http.Client{Transport: tr}
 
-	resp, err := client.Get(fmt.Sprintf("https://%s:8081", *address))
+	resp, err := client.Get(fmt.Sprintf("https://%s", *address))
 	if err != nil {
 		log.Println(err)
 		return
@@ -83,6 +83,6 @@ func main() {
 	}
 	defer resp.Body.Close()
 	fmt.Printf("%v\n", resp.Status)
-	fmt.Printf(string(htmlData))
+	fmt.Println(string(htmlData))
 
 }
